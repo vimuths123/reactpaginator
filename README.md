@@ -22,7 +22,7 @@ React js pagination plugin
 
 		paginationNoAjax(jsonData, 6, 'paginateid', 'paginate_content');
 
-	As parameters for this function we have to pass json array above and items per page, Parent div id for nuber plate and Parent div id for item set.
+	As parameters for this function we have to pass json array above and items per page, Parent div id for number plate and Parent div id for item set.
 5. Next you have to React component called 'ReactPaginate'. 
 6. Inside return of render event you can give the html structure for single item in pagination.
 
