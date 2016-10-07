@@ -23,99 +23,7 @@
 
         <script type="text/jsx" src="reactPaginate.js"></script>        
 
-        <script type="text/jsx">            
-            
-            function paginationWithAjax(jsonarrray, perpage, contentdiv, numberplate){
-                var PaginateContent2 = React.createClass({
-                    
-                    getInitialState: function() {
-                        return {
-                            json: []
-                        }
-                    },
-
-                    componentDidMount: function() {
-                        $.ajax({
-                             url: "getjsonarray.php",
-                             dataType: 'json',
-                             method: "POST",
-                             data : {startpoint: 0, perpage: perpage},
-                             success: function(data) {  
-                               this.setState({json: data}, function(){
-
-                               }.bind(this));
-
-                             }.bind(this),
-                        });
-                    },
-
-                    edit: function(id){
-                        var startpoint = (id * perpage) - perpage;
-
-                        $.ajax({
-                          url: "getjsonarray.php",
-                          dataType: 'json',
-                          method: "POST",
-                          data : {startpoint: startpoint, perpage: perpage},
-                          success: function(data) {  
-                            this.setState({json: data}, function(){
-
-                            }.bind(this));
-
-                          }.bind(this),
-                        });
-                    },
-
-                    render: function(){                        
-                        var that = this;
-                        var count = 0;                   
-                        
-                        $(document).ready(function () { 
-                            $.post("getjsoncount.php", function(data) {
-                                count = data;
-                                var options = {
-                                    currentPage: 1,
-                                    totalPages: Math.ceil(count / perpage),
-                                    itemTexts: function (type, page, current) {
-                                        switch (type) {
-                                            case "first":
-                                                return "First";
-                                            case "prev":
-                                                return "Previous";
-                                            case "next":
-                                                return "Next";
-                                            case "last":
-                                                return "Last";
-                                            case "page":
-                                                return page;
-                                        }
-                                    },
-                                    onPageClicked: function (e, originalEvent, type, page) {
-                                        that.edit(page);
-                                    }
-                                };
-
-                                $('#'+contentdiv).bootstrapPaginator(options);
-                            });                              
-                        });                       
-                        
-                        return (
-                           <div>
-                            {
-                               this.state.json.map(function(object, i){
-                                   return (
-                                         <UserDomInput key={i} getObject={object}></UserDomInput>
-                                   );
-                               })
-                            }
-                           </div>                            
-                        );
-                    }
-                }); 
-                ReactDOM.render(
-                        <PaginateContent2 />                  
-                        , document.getElementById(numberplate));
-            }
+        <script type="text/jsx">          
             
             var UserDomInput = React.createClass({     
                 
@@ -167,8 +75,10 @@
                                 {"image": "http://images.prd.mris.com/image/V2/1/7IZk2HTN0AcHnIb7VCvisTUc3kTbn0UyHQlVAlwkNLM3_8UNN8pcgy9u6KVNoRGGH_kdUlpYehdbqzctRNUebg.jpg", "price": "$1,595,000", "address": "704 Saint Georges St", "area": "0 SqFt", "beds": "4", "baths": "5", "desc": "Situated between fairmount park", "subdesc": "Courtesy of HS Fox & Roach-Chestnut Hill Evergreen"},
                             ];
             
-//            paginationNoAjax(jsonData, 6, 'paginateid', 'paginate_content');
-            paginationWithAjax(jsonData, 6, 'paginateid2', 'paginate_content2');
+            paginationNoAjax(jsonData, 6, 'paginateid', 'paginate_content');
+            
+//            With Ajax
+//            paginationWithAjax(6, 'paginateid2', 'paginate_content2', "getjsoncount.php", "getjsonarray.php");
             
         </script>
         
@@ -279,6 +189,12 @@
                 <div class="raw" style="text-align: center;">
                     <div id="paginateid"></div>
                 </div>
+                
+<!--                <div class="row">
+                    <div class="col-md-12">
+                        <h2 style="text-decoration: underline;">With ajax</h2>
+                    </div>
+                </div>-->
                 
                 <div class="row" id="paginate_content2">
 

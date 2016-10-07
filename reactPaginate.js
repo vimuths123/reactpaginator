@@ -694,4 +694,94 @@ function paginationNoAjax(jsonarrray, perpage, contentdiv, numberplate){
             }
             
             
-            
+            function paginationWithAjax(perpage, contentdiv, numberplate, countUrl, getArrayUrl){
+                var PaginateContent2 = React.createClass({
+                    
+                    getInitialState: function() {
+                        return {
+                            json: []
+                        }
+                    },
+
+                    componentDidMount: function() {
+                        $.ajax({
+                             url: getArrayUrl,
+                             dataType: 'json',
+                             method: "POST",
+                             data : {startpoint: 0, perpage: perpage},
+                             success: function(data) {  
+                               this.setState({json: data}, function(){
+
+                               }.bind(this));
+
+                             }.bind(this),
+                        });
+                    },
+
+                    edit: function(id){
+                        var startpoint = (id * perpage) - perpage;
+
+                        $.ajax({
+                          url: getArrayUrl,
+                          dataType: 'json',
+                          method: "POST",
+                          data : {startpoint: startpoint, perpage: perpage},
+                          success: function(data) {  
+                            this.setState({json: data}, function(){
+
+                            }.bind(this));
+
+                          }.bind(this),
+                        });
+                    },
+
+                    render: function(){                        
+                        var that = this;
+                        var count = 0;                   
+                        
+                        $(document).ready(function () { 
+                            $.post(countUrl, function(data) {
+                                count = data;
+                                var options = {
+                                    currentPage: 1,
+                                    totalPages: Math.ceil(count / perpage),
+                                    itemTexts: function (type, page, current) {
+                                        switch (type) {
+                                            case "first":
+                                                return "First";
+                                            case "prev":
+                                                return "Previous";
+                                            case "next":
+                                                return "Next";
+                                            case "last":
+                                                return "Last";
+                                            case "page":
+                                                return page;
+                                        }
+                                    },
+                                    onPageClicked: function (e, originalEvent, type, page) {
+                                        that.edit(page);
+                                    }
+                                };
+
+                                $('#'+contentdiv).bootstrapPaginator(options);
+                            });                              
+                        });                       
+                        
+                        return (
+                           <div>
+                            {
+                               this.state.json.map(function(object, i){
+                                   return (
+                                         <UserDomInput key={i} getObject={object}></UserDomInput>
+                                   );
+                               })
+                            }
+                           </div>                            
+                        );
+                    }
+                }); 
+                ReactDOM.render(
+                        <PaginateContent2 />                  
+                        , document.getElementById(numberplate));
+            }
