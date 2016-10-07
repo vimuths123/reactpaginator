@@ -25,7 +25,7 @@
 
         <script type="text/jsx">          
             
-            var UserDomInput = React.createClass({     
+            var ReactPaginate = React.createClass({     
                 
                 render: function(){
                     return (
