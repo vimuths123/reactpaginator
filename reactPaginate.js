@@ -680,7 +680,7 @@ function paginationNoAjax(jsonarrray, perpage, contentdiv, numberplate){
                             {
                                this.state.json.map(function(object, i){
                                    return (
-                                         <UserDomInput key={i} getObject={object}></UserDomInput>
+                                         <ReactPaginate key={i} getObject={object}></ReactPaginate>
                                    );
                                })
                             }
@@ -773,7 +773,7 @@ function paginationNoAjax(jsonarrray, perpage, contentdiv, numberplate){
                             {
                                this.state.json.map(function(object, i){
                                    return (
-                                         <UserDomInput key={i} getObject={object}></UserDomInput>
+                                         <ReactPaginate key={i} getObject={object}></ReactPaginate>
                                    );
                                })
                             }
