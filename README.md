@@ -74,3 +74,11 @@ React js pagination plugin
                     );
                 }
         });
+	
+<br>
+### With Ajax ###
+1. Using with AJAX is little bit tricky. When we call the function, We have to pass two URLS instead of JSON array. You have to pass json array according to limits witch returns by ajax call.
+    
+    	paginationWithAjax(6, 'paginateid2', 'paginate_content2', "getjsoncount.php", "getjsonarray.php");
+
+Last parameters are two URLS. From first URL returns cuount of all records as an Integer. Second URL returns array of items for particular page. Just simple limit query will enough since other logic s are done by the  plugin.	
